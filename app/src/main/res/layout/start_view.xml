@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.edforge.efhomescreen.StartView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:clipChildren="false"
+    android:background="#D5E9FD">
+
+    <ImageView
+        android:id="@+id/SnavBG"
+        android:layout_width="1734px"
+        android:layout_height="1047px"
+        android:layout_gravity="center"
+        android:background="@drawable/nav_bg_none"/>
+
+    <ImageView
+        android:id="@+id/SstartSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/homescene"
+        android:background="@android:color/transparent"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="200px"
+        android:layout_marginLeft="50px"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/SexistingUser"
+            android:layout_width="719px"
+            android:layout_height="217px"
+            android:scaleType= "fitCenter"
+            android:src="@drawable/button_login"
+            android:clipChildren="false"
+            android:background="@null" />
+
+        <ImageButton
+            android:id="@+id/SnewUserButton"
+            android:layout_width="719px"
+            android:layout_height="178px"
+            android:layout_marginTop="35px"
+            android:scaleType= "fitCenter"
+            android:src="@drawable/button_new_usr"
+            android:clipChildren="false"
+            android:background="@null" />
+
+    </LinearLayout>
+
+</org.edforge.efhomescreen.StartView>

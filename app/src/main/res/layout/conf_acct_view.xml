@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.edforge.efhomescreen.UserConfView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:clipChildren="false"
+    android:background="#D5E9FD">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/bHome"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginStart="15px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/button_home"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/SnavBG"
+            android:layout_width="1734px"
+            android:layout_height="1047px"
+            android:background="@drawable/nav_bg_left"/>
+
+        <TextView
+            android:id="@+id/mPrompt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="40px"
+            android:background="@drawable/input_text_bg"
+            android:padding="15sp"
+            android:text="Account not found: Tap the Back button to make corrections"
+            android:textColor="#990000"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bBack"
+            android:layout_width="226px"
+            android:layout_height="172px"
+            android:layout_marginStart="-85px"
+            android:layout_marginBottom="-90px"
+            android:layout_gravity="bottom|left"
+            android:background="@drawable/button_nav_back"
+            android:text=""
+            android:textColor="#222222"
+            android:textSize="27sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-80px"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mPrompt1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:text="Tap the Sign-in button to Create this new Account:"
+            android:textColor="#222222"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mPrompt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70px"
+            android:background="@null"
+            android:gravity="center"
+            android:text="( Or click the back button to make corrections. )"
+            android:textColor="#222222"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/output"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40px"
+            android:layout_marginLeft="400px"
+            android:layout_marginRight="400px"
+            android:background="@drawable/input_text_bg"
+            android:paddingLeft="25px"
+            android:paddingTop="17px"
+            android:paddingBottom="17px"
+            android:text="Test"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
+        <ImageButton
+            android:id="@+id/bSignin"
+            android:layout_width="719px"
+            android:layout_height="217px"
+            android:layout_gravity="center"
+            android:scaleType= "fitCenter"
+            android:src="@drawable/button_signin"
+            android:clipChildren="false"
+            android:background="@null" />
+
+    </LinearLayout>
+
+
+
+
+</org.edforge.efhomescreen.UserConfView>
