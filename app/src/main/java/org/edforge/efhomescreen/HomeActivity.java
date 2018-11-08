@@ -5,12 +5,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import org.edforge.util.JSON_Helper;
@@ -18,9 +21,9 @@ import org.edforge.util.JSON_Util;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static org.edforge.efhomescreen.TCONST.CREATE_ACCT;
@@ -29,7 +32,8 @@ import static org.edforge.efhomescreen.TCONST.REPLACE;
 import static org.edforge.efhomescreen.TCONST.SET_DAY;
 import static org.edforge.efhomescreen.TCONST.SET_MONTH;
 import static org.edforge.efhomescreen.TCONST.SET_NAME;
-import static org.edforge.efhomescreen.TCONST.START_TUTOR;
+import static org.edforge.efhomescreen.TCONST.USER_FIELD;
+import static org.edforge.util.TCONST.EFHOST_LAUNCH_INTENT;
 
 
 public class HomeActivity extends Activity implements IEdForgeLauncher{
@@ -50,9 +54,12 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     private int                     mDay;
 
     private BreakOutView    breakOutView;
-    private UserNameView    UserNameView;
-    private UserDateView    UserDateView;
-    private UserConfView    UserConfView;
+    private UserNameView    userNameView;
+    private UserDateView    userDateView;
+    private UserConfView    userConfView;
+    private EarBudView      earBudView;
+    private SoundCheckView  soundCheckView;
+
     private StartView       startView;
     private UserDataPackage mUserDataPackage;
 
@@ -95,13 +102,15 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         filter.addAction(TCONST.MONTH_CHANGE);
         filter.addAction(TCONST.DAY_CHANGE);
         filter.addAction(TCONST.USER_CHANGE);
+        filter.addAction(TCONST.START_TUTOR);
 
         bReceiver = new homeReceiver();
         bManager.registerReceiver(bReceiver, filter);
 
         setFullScreen();
 
-        mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mJsonWriter = new JSON_Util();
+        mInflater   = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         breakOutView = (BreakOutView) mInflater.inflate(R.layout.breakout_view, null );
         params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -109,21 +118,30 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         breakOutView.setMode(breakOutView.BREAK_OUT, this);
         breakOutView.setCallback(this);
 
-        UserNameView = (UserNameView) mInflater.inflate(R.layout.user_name_view, null );
+        userNameView = (UserNameView) mInflater.inflate(R.layout.user_name_view, null );
         params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        UserNameView.setLayoutParams(params);
-        UserNameView.setCallback(this);
+        userNameView.setLayoutParams(params);
+        userNameView.setCallback(this);
 
-        UserDateView = (UserDateView) mInflater.inflate(R.layout.user_date_view, null );
+        userDateView = (UserDateView) mInflater.inflate(R.layout.user_date_view, null );
         params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        UserDateView.setLayoutParams(params);
-        UserDateView.setCallback(this);
+        userDateView.setLayoutParams(params);
+        userDateView.setCallback(this);
 
-        UserConfView = (UserConfView) mInflater.inflate(R.layout.conf_acct_view, null );
+        userConfView = (UserConfView) mInflater.inflate(R.layout.conf_acct_view, null );
         params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        UserConfView.setLayoutParams(params);
-        UserConfView.setCallback(this);
+        userConfView.setLayoutParams(params);
+        userConfView.setCallback(this);
 
+        earBudView = (EarBudView) mInflater.inflate(R.layout.earbud_view, null );
+        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        earBudView.setLayoutParams(params);
+        earBudView.setCallback(this);
+
+        soundCheckView = (SoundCheckView) mInflater.inflate(R.layout.sound_chk_view, null );
+        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        soundCheckView.setLayoutParams(params);
+        soundCheckView.setCallback(this);
 
         // Create the start dialog
         //
@@ -131,10 +149,6 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         startView.setLayoutParams(params);
         startView.setCallback(this);
-
-        nextStep(TCONST.HOME);
-        setFullScreen();
-
 
         // Load the user data file
         //
@@ -151,15 +165,9 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
             Log.e(TAG, "UserData Parse Error: " + e);
         }
 
+        nextStep(TCONST.HOME);
 
-//        try {
-//            Settings.Global.putInt(getContentResolver(), Settings.Global.DEVICE_PROVISIONED, 0);
-//        }
-//        catch(Exception e) {
-//
-//        }
-
-//        startLockTask();
+        setFullScreen();
     }
 
 
@@ -186,29 +194,17 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
     public void startTutor() {
 
-        String intent = "org.edforge.efandroidhost.EFTutorLauncher";
-
-        String dataSource = "";
-        String intentData = "";
-        String features = "";
-
-        Intent extIntent = new Intent();
-        String extPackage;
-
         Log.d(TAG, "Start: Tutor Launcher");
 
-        extPackage = intent.substring(0, intent.lastIndexOf('.'));
+        Intent launch = new Intent(EFHOST_LAUNCH_INTENT);
+        launch.putExtra(USER_FIELD, mUser);
 
-        extIntent.setClassName(extPackage, intent);
-        extIntent.putExtra("datasource", dataSource);
-        extIntent.putExtra("intentdata", intentData);
-        extIntent.putExtra("features", features);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(launch, PackageManager.MATCH_DEFAULT_ONLY);
+        boolean isIntentSafe = activities.size() > 0;
 
-        try {
-            activityLocal.startActivity(extIntent);
-        }
-        catch(Exception e) {
-            Log.e("Home", "Launch Error: " + e + " : " + intent);
+        if(isIntentSafe) {
+            startActivity(launch);
         }
     }
 
@@ -241,13 +237,6 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     public void createNewUser() {
 
         mUserDataPackage.addUser(mUser);
-
-        try {
-            mJsonWriter = new JSON_Util(mUserDataPackage, DATA_PATH + TCONST.USER_DATA, REPLACE);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -276,36 +265,33 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                 broadcast(SET_DAY,-1);
                 break;
 
-            case TCONST.NEW_USER:
-                changemode(TCONST.CREATE_ACCT);
-                switchView(UserNameView);
+            case TCONST.USER_NAME:
+                changemode(TCONST.EXISTING_ACCT);
+                switchView(userNameView);
                 break;
 
-            case TCONST.LOGIN_STEP:
-                changemode(TCONST.EXISTING_ACCT);
-                switchView(UserNameView);
+            case TCONST.USER_NEW:
+                changemode(TCONST.CREATE_ACCT);
+                switchView(userNameView);
                 break;
+
 
             case TCONST.USER_DATE:
-                switchView(UserDateView);
+                switchView(userDateView);
                 break;
 
             case TCONST.USER_CONF:
-                switchView(UserConfView);
+                switchView(userConfView);
                 break;
 
-            case TCONST.START_TUTOR:
-
-                switch(mAccountMode) {
-                    case CREATE_ACCT:
-                        createNewUser();
-                        // fall through and start tutor
-
-                    case EXISTING_ACCT:
-                        startTutor();
-                        break;
-                }
+            case TCONST.EAR_BUD_CHECK:
+                switchView(earBudView);
                 break;
+
+            case TCONST.SOUND_CHECK:
+                switchView(soundCheckView);
+                break;
+
         }
     }
 
@@ -374,6 +360,22 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                     mDay = intent.getIntExtra(TCONST.INT_FIELD, -1);
 
                     break;
+
+                case TCONST.START_TUTOR:
+
+                    switch(mAccountMode) {
+                        case CREATE_ACCT:
+                            createNewUser();
+                            // fall through and start tutor
+
+                        case EXISTING_ACCT:
+                            mJsonWriter.write(mUserDataPackage, DATA_PATH + TCONST.USER_DATA, REPLACE);
+
+                            startTutor();
+                            break;
+                    }
+                    break;
+
             }
         }
     }
@@ -409,6 +411,20 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
             validatePath(folder);
         }
+    }
+
+
+    /**
+     * TODO: Manage the back button
+     */
+    @Override
+    public void onBackPressed() {
+
+        // Allow the screen to sleep when not in a session
+        //
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        setFullScreen();
     }
 
 

@@ -36,8 +36,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static org.edforge.efhomescreen.TCONST.LOGIN_STEP;
-import static org.edforge.efhomescreen.TCONST.NEW_USER;
+import static org.edforge.efhomescreen.TCONST.USER_NEW;
+import static org.edforge.efhomescreen.TCONST.USER_NAME;
 
 
 public class StartView extends FrameLayout {
@@ -148,11 +148,11 @@ public class StartView extends FrameLayout {
 
             switch(vid) {
                 case  R.id.SexistingUser:
-                    mCallback.nextStep(LOGIN_STEP);
+                    mCallback.nextStep(USER_NAME);
                     break;
 
                 case  R.id.SnewUserButton:
-                    mCallback.nextStep(NEW_USER);
+                    mCallback.nextStep(USER_NEW);
                     break;
 
                 default:

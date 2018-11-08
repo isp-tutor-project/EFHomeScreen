@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.edforge.efhomescreen.SoundCheckView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:clipChildren="false"
+    android:background="#D5E9FD">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/bHome"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginStart="15px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/button_home"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/SnavBG"
+            android:layout_width="1734px"
+            android:layout_height="1047px"
+            android:background="@drawable/nav_bg_none"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25sp"
+            android:gravity="center_horizontal"
+            android:text="Adjust your volume until\nyou can hear the voice comfortably."/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/speaker"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="30sp"
+            android:gravity="center_horizontal"
+            android:text="Sound Check"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="45dp"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/Sshape0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:text=""
+            android:background="@drawable/button_shp_0"/>
+
+        <Button
+            android:id="@+id/Sshape1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:text=""
+            android:background="@drawable/button_shp_1"/>
+
+        <Button
+            android:id="@+id/Sshape2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:text=""
+            android:background="@drawable/button_shp_2"/>
+
+        <Button
+            android:id="@+id/Sshape3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:text=""
+            android:background="@drawable/button_shp_3"/>
+
+        <Button
+            android:id="@+id/Sshape4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:text=""
+            android:background="@drawable/button_shp_4"/>
+
+        <Button
+            android:id="@+id/Sshape5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:text=""
+            android:background="@drawable/button_shp_5"/>
+
+    </LinearLayout>
+
+</org.edforge.efhomescreen.SoundCheckView>

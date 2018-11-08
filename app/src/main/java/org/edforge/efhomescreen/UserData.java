@@ -20,6 +20,7 @@ public class UserData implements ISerializableObject {
     public String userName;
     public String currTutor;
     public String currScene;
+    public String instructionSeq;
 
 
     public UserData() {
@@ -27,6 +28,7 @@ public class UserData implements ISerializableObject {
         userName  = "";
         currTutor = "";
         currScene = "";
+        instructionSeq = "";
     }
 
     public UserData(String _userName) {
@@ -34,6 +36,7 @@ public class UserData implements ISerializableObject {
         userName  = _userName;
         currTutor = "";
         currScene = "";
+        instructionSeq = "";
     }
 
     @Override
@@ -42,6 +45,7 @@ public class UserData implements ISerializableObject {
         writer.addElement("userName", userName);
         writer.addElement("currTutor", currTutor);
         writer.addElement("currScene", currScene);
+        writer.addElement("instructionSeq", instructionSeq);
     }
 
     @Override

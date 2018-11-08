@@ -14,10 +14,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import static org.edforge.efhomescreen.TCONST.CREATE_ACCT;
+import static org.edforge.efhomescreen.TCONST.EAR_BUD_CHECK;
 import static org.edforge.efhomescreen.TCONST.EXISTING_ACCT;
 import static org.edforge.efhomescreen.TCONST.HOME;
-import static org.edforge.efhomescreen.TCONST.LOGIN_STEP;
-import static org.edforge.efhomescreen.TCONST.START_TUTOR;
 import static org.edforge.efhomescreen.TCONST.USER_CHANGE;
 import static org.edforge.efhomescreen.TCONST.USER_DATE;
 
@@ -140,14 +139,14 @@ public class UserConfView extends FrameLayout {
                                 mPrompt3.setVisibility(VISIBLE);
                             }
                             else {
-                                mCallback.nextStep(START_TUTOR);
+                                mCallback.nextStep(EAR_BUD_CHECK);
                             }
                             break;
 
                         case EXISTING_ACCT:
 
                             if(exists) {
-                                mCallback.nextStep(START_TUTOR);
+                                mCallback.nextStep(EAR_BUD_CHECK);
                             }
                             else {
                                 mPrompt3.setText("Account not found: Tap the Back button to make corrections");

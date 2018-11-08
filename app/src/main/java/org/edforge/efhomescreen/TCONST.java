@@ -42,11 +42,15 @@ public class TCONST {
 
 
     public static final String HOME                 = "HOME";
-    public static final String LOGIN_STEP           = "LOGINSTEP";
-    public static final String NEW_USER             = "NEWUSER";
-    public static final String USER_DATE            = "USERNAME";
-    public static final String USER_CONF            = "USERDATE";
+    public static final String USER_NEW             = "USER_NEW";
+    public static final String USER_NAME            = "USERNAME";
+    public static final String USER_DATE            = "USER_DATE";
+    public static final String USER_CONF            = "USERCONF";
+    public static final String EAR_BUD_CHECK        = "EARBUDCHECK";
+    public static final String SOUND_CHECK          = "SOUNDCHECK";
+
     public static final String START_TUTOR          = "USERCONF";
+
 
     public static final String UNKNOWN_MODE          = "UNKNOWNMODE";
     public static final String CREATE_ACCT           = "CREATE_ACCT";
@@ -64,6 +68,7 @@ public class TCONST {
 
     public static final String NAME_FIELD            = "NAME_FIELD";
     public static final String INT_FIELD             = "INT_FIELD";
+    public static final String USER_FIELD            = "USER_FIELD";
 
     public static final boolean APPEND     = true;
     public static final boolean REPLACE    = false;

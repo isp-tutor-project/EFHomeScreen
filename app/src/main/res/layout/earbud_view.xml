@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.edforge.efhomescreen.EarBudView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:clipChildren="false"
+    android:background="#D5E9FD">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/bHome"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginStart="15px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/button_home"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/SnavBG"
+            android:layout_width="1734px"
+            android:layout_height="1047px"
+            android:background="@drawable/nav_bg_none"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/earphones"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-110dp"
+            android:textSize="25sp"
+            android:gravity="center_horizontal"
+            android:text="Put on your  headphones\nand then\nClick anywhere to Begin"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:src="@drawable/logos"/>
+
+</org.edforge.efhomescreen.EarBudView>

@@ -27,12 +27,11 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="org.edforge.EF_HOME_SCREEN"/>
+                <action android:name="org.edforge.efhomescreen.EF_HOME_SCREEN"/>
 
                 <!-- The following two intent-filters are the key to set homescreen -->
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

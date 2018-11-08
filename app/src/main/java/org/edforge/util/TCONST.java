@@ -20,6 +20,8 @@ package org.edforge.util;
 
 // global tutor constants
 
+import android.content.Intent;
+
 public class TCONST {
 
     public static final String EDFORGE_FOLDER         = "/EdForge/";
@@ -74,5 +76,10 @@ public class TCONST {
     public static final String INSTALL      = "INSTALL";
 
     public static final String EDFORGEZIPTEMP = "efztempfile.zip";
+
+    public static final String EFOWNER_LAUNCH_INTENT  = "org.edforge.efdeviceowner.EF_DEVICE_OWNER";
+    public static final String EFHOME_LAUNCH_INTENT   = "org.edforge.efhomescreen.EF_HOME_SCREEN";
+    public static final String EFHOST_LAUNCH_INTENT   = "org.edforge.androidhost.EF_ANDROID_HOST";
+    public static final String LAUNCH_HOME            = Intent.ACTION_MAIN;
 
 }
