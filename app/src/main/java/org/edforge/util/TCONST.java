@@ -24,62 +24,10 @@ import android.content.Intent;
 
 public class TCONST {
 
-    public static final String EDFORGE_FOLDER         = "/EdForge/";
-    public static final String EDFORGE_UPDATE_FOLDER  = "/EdForge_UPDATE/";
-    public static final String EDFORGE_LOG_FOLDER     = "/EdForge_LOG/";
-    public static final String EDFORGE_DATA_FOLDER    = "/EdForge_DATA/";
-    public static final String EDFORGE_DATA_TRANSFER  = "/EdForge_XFER/";
-
-
     // data sources
     public static final String ASSETS          = "ASSETS";
     public static final String RESOURCES       = "RESOURCE";
     public static final String EXTERN          = "EXTERN";
     public static final String DEFINED         = "DEFINED";
-
-    // WIFI constants
-    public static final String WEP         = "WEP";
-    public static final String WPA         = "WPA";
-    public static final String OPEN        = "OPEN";
-
-    public static final String START_PROGRESSIVE_UPDATE   = "START_PROGRESSIVE_UPDATE";
-    public static final String START_INDETERMINATE_UPDATE = "START_INDETERMINATE_UPDATE";
-    public static final String UPDATE_PROGRESS            = "UPDATE_PROGRESS";
-    public static final String PROGRESS_TITLE             = "PROGRESS_TITLE";
-    public static final String PROGRESS_MSG1              = "PROGRESS_MSG1";
-    public static final String PROGRESS_MSG2              = "PROGRESS_MSG2";
-    public static final String ASSET_UPDATE_MSG           = "Installing Assets: ";
-
-    public static final String INT_FIELD                  = "INT_FIELD";
-    public static final String TEXT_FIELD                 = ".text";
-
-    public static final String PLEASE_WAIT                = " - Please Wait.";
-
-
-    // Server States
-    public static final int START_STATE         = 0;
-    public static final int COMMAND_WAIT        = 1;
-    public static final int COMMAND_PACKET      = 2;
-    public static final int PROCESS_COMMAND     = 3;
-
-    public static final int COMMAND_SENDSTART   = 4;
-    public static final int COMMAND_SENDDATA    = 5;
-    public static final int COMMAND_SENDACK     = 6;
-
-    public static final int COMMAND_RECVSTART   = 7;
-    public static final int COMMAND_RECVDATA    = 8;
-    public static final int COMMAND_RECVACK     = 9;
-
-
-    public static final String PULL         = "PULL";
-    public static final String PUSH         = "PUSH";
-    public static final String INSTALL      = "INSTALL";
-
-    public static final String EDFORGEZIPTEMP = "efztempfile.zip";
-
-    public static final String EFOWNER_LAUNCH_INTENT  = "org.edforge.efdeviceowner.EF_DEVICE_OWNER";
-    public static final String EFHOME_LAUNCH_INTENT   = "org.edforge.efhomescreen.EF_HOME_SCREEN";
-    public static final String EFHOST_LAUNCH_INTENT   = "org.edforge.androidhost.EF_ANDROID_HOST";
-    public static final String LAUNCH_HOME            = Intent.ACTION_MAIN;
 
 }

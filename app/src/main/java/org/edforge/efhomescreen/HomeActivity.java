@@ -27,13 +27,15 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.edforge.efhomescreen.TCONST.CREATE_ACCT;
+import static org.edforge.efhomescreen.TCONST.EFHOME_FINISHER_INTENT;
+import static org.edforge.efhomescreen.TCONST.EFHOST_LAUNCH_INTENT;
 import static org.edforge.efhomescreen.TCONST.EXISTING_ACCT;
+import static org.edforge.efhomescreen.TCONST.OWNER_BREAK_OUT;
 import static org.edforge.efhomescreen.TCONST.REPLACE;
 import static org.edforge.efhomescreen.TCONST.SET_DAY;
 import static org.edforge.efhomescreen.TCONST.SET_MONTH;
 import static org.edforge.efhomescreen.TCONST.SET_NAME;
 import static org.edforge.efhomescreen.TCONST.USER_FIELD;
-import static org.edforge.util.TCONST.EFHOST_LAUNCH_INTENT;
 
 
 public class HomeActivity extends Activity implements IEdForgeLauncher{
@@ -103,6 +105,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         filter.addAction(TCONST.DAY_CHANGE);
         filter.addAction(TCONST.USER_CHANGE);
         filter.addAction(TCONST.START_TUTOR);
+        filter.addAction(TCONST.OWNER_BREAK_OUT);
+        filter.addAction(EFHOME_FINISHER_INTENT);
 
         bReceiver = new homeReceiver();
         bManager.registerReceiver(bReceiver, filter);
@@ -171,6 +175,13 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bManager.unregisterReceiver(bReceiver);
+    }
+
+
     /**
      * get time stamp string for current time in milliseconds
      */
@@ -181,7 +192,6 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
 
     private void setFullScreen() {
-
 
         ((View) masterContainer).setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -208,6 +218,9 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         }
     }
 
+    public void finishActivitywithResult() {
+        setResult(1);
+    }
 
     @Override
     public void startBreakOut() {
@@ -313,6 +326,21 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         setFullScreen();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
 
     public void broadcast(String Action, int Msg) {
 
@@ -376,6 +404,11 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                     }
                     break;
 
+                case EFHOME_FINISHER_INTENT:
+                case OWNER_BREAK_OUT:
+                    finish();
+//                    finishActivitywithResult();
+                    break;
             }
         }
     }
