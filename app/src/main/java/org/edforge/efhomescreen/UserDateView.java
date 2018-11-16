@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 import static org.edforge.efhomescreen.TCONST.DAY_CHANGE;
 import static org.edforge.efhomescreen.TCONST.HOME;
-import static org.edforge.efhomescreen.TCONST.USER_NEW;
+import static org.edforge.efhomescreen.TCONST.USER_NAME;
 import static org.edforge.efhomescreen.TCONST.MONTH_CHANGE;
 import static org.edforge.efhomescreen.TCONST.USER_CONF;
 
@@ -247,7 +247,7 @@ public class UserDateView extends FrameLayout {
                                         mCallback.nextStep(USER_CONF);
                     break;
                 case  R.id.bBack:
-                    mCallback.nextStep(USER_NEW);
+                    mCallback.nextStep(USER_NAME);
                     break;
 
                 case R.id.bJan:

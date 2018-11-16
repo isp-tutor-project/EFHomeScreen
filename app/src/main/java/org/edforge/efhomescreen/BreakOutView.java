@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.edforge.efhomescreen.TCONST.OWNER_BREAK_OUT;
+
 /**
  * Created by kevin on 11/2/2018.
  */
@@ -169,31 +171,9 @@ public class BreakOutView extends FrameLayout {
                             mData = "";
                             mOutput.setText(mData);
 
-                            if (mMode.equals(FACTORYRESET)) {
-                                Log.i(TAG, "reseting device");
+                            Log.i(TAG, "Breaking Out To Device Owner Admin");
 
-                                // Open the main screen
-                                //
-                                mLaunch = new Intent();
-                                mLaunch.setAction(ACTION_DEVICE_OWNER);
-                                mLaunch.putExtra(REASON, FACTORYRESET);
-                                mLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                                mContext.startActivity(mLaunch);
-                            }
-                            else {
-                                Log.i(TAG, "Breaking Out To System");
-
-                                // Open the main screen
-                                //
-                                mLaunch = new Intent();
-                                mLaunch.setAction(ACTION_DEVICE_OWNER);
-                                mLaunch.putExtra(REASON, BREAK_OUT);
-                                mLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                                mContext.startActivity(mLaunch);
-
-                            }
+                            broadcast(OWNER_BREAK_OUT);
                             break;
                         }
                     case 6:
@@ -233,6 +213,22 @@ public class BreakOutView extends FrameLayout {
             }
         }
     };
+
+    public void broadcast(String Action) {
+
+        // Let the persona know where to look
+        Intent msg = new Intent(Action);
+
+        bManager.sendBroadcast(msg);
+    }
+    public void broadcast(String Action, int Msg) {
+
+        // Let the persona know where to look
+        Intent msg = new Intent(Action);
+        msg.putExtra(TCONST.INT_FIELD, Msg);
+
+        bManager.sendBroadcast(msg);
+    }
 
 
 }

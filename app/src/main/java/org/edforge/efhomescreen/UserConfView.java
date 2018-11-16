@@ -176,11 +176,11 @@ public class UserConfView extends FrameLayout {
         if(!mName.isEmpty())
             mData =  mName;
         if(mMonth > 0)
-            mData += "-" + months[mMonth];
+            mData += "_" + months[mMonth];
         if(mDay > 0)
-            mData += "-"+ Integer.toString(mDay);
+            mData += "_"+ Integer.toString(mDay);
 
-        mOutput.setText(mData);
+        mOutput.setText(mData.replace("_","-"));
 
         broadcast(USER_CHANGE, mData);
     }

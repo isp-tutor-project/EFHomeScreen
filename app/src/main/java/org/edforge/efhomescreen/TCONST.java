@@ -21,6 +21,8 @@ package org.edforge.efhomescreen;
 
 // global tutor constants
 
+import android.content.Intent;
+
 import java.util.HashMap;
 
 public class TCONST {
@@ -33,7 +35,6 @@ public class TCONST {
 
     public static final String USER_DATA            = "isp_userdata.json";
 
-
     public static final String FONT_FOLDER          = "fonts/";
     public static final String POINT_AND_TAP        = "POINTANDTAP";
     public static final String CANCEL_POINT         = "CANCEL_POINT";
@@ -43,13 +44,15 @@ public class TCONST {
 
     public static final String HOME                 = "HOME";
     public static final String USER_NEW             = "USER_NEW";
+    public static final String USER_EXISTING        = "USER_EXISTING";
     public static final String USER_NAME            = "USERNAME";
     public static final String USER_DATE            = "USER_DATE";
     public static final String USER_CONF            = "USERCONF";
     public static final String EAR_BUD_CHECK        = "EARBUDCHECK";
     public static final String SOUND_CHECK          = "SOUNDCHECK";
 
-    public static final String START_TUTOR          = "USERCONF";
+    public static final String START_TUTOR          = "START_TUTOR";
+    public static final String OWNER_BREAK_OUT      = "OWNER_BREAK_OUT";
 
 
     public static final String UNKNOWN_MODE          = "UNKNOWNMODE";
@@ -75,5 +78,15 @@ public class TCONST {
 
     public static final boolean READ     = true;
     public static final boolean WRITE    = false;
+
+    public static final String PLUG_CONNECT     = "android.intent.action.ACTION_POWER_CONNECTED";
+    public static final String PLUG_DISCONNECT  = "android.intent.action.ACTION_POWER_DISCONNECTED";
+
+    public static final String EFHOST_LAUNCH_INTENT   = "org.edforge.androidhost.EF_ANDROID_HOST";
+    public static final String LAUNCH_HOME            = Intent.ACTION_MAIN;
+
+    public static final String EFHOST_FINISHER_INTENT   = "org.edforge.androidhost.EFHOST_FINISHER_INTENT";
+    public static final String EFHOME_FINISHER_INTENT   = "org.edforge.efhomescreen.EFHOME_FINISHER_INTENT";
+    public static final String EFHOME_STARTER_INTENT    = "org.edforge.efhomescreen.EFHOME_STARTER_INTENT";
 
 }

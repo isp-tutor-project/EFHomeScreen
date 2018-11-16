@@ -29,20 +29,22 @@
             android:layout_height="1047px"
             android:background="@drawable/nav_bg_right"/>
 
-        <Button
-            android:id="@+id/bNext"
-            android:layout_width="226px"
-            android:layout_height="172px"
-            android:layout_marginEnd="-85px"
-            android:layout_marginBottom="-80px"
-            android:layout_gravity="bottom|right"
-            android:background="@drawable/button_nav_next"
-            android:text=""
-            android:textColor="#222222"
-            android:textSize="27sp"
-            android:textStyle="bold" />
-
     </FrameLayout>
+
+
+    <Button
+        android:id="@+id/bNext"
+        android:layout_width="226px"
+        android:layout_height="172px"
+        android:layout_marginEnd="5px"
+        android:layout_marginBottom="5px"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/button_nav_next"
+        android:text=""
+        android:textColor="#222222"
+        android:textSize="27sp"
+        android:textStyle="bold" />
+
 
 
     <LinearLayout

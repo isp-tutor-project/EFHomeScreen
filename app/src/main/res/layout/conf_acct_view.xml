@@ -42,20 +42,20 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/bBack"
-            android:layout_width="226px"
-            android:layout_height="172px"
-            android:layout_marginStart="-85px"
-            android:layout_marginBottom="-90px"
-            android:layout_gravity="bottom|left"
-            android:background="@drawable/button_nav_back"
-            android:text=""
-            android:textColor="#222222"
-            android:textSize="27sp"
-            android:textStyle="bold" />
-
     </FrameLayout>
+
+    <Button
+        android:id="@+id/bBack"
+        android:layout_width="226px"
+        android:layout_height="172px"
+        android:layout_marginStart="5px"
+        android:layout_marginBottom="5px"
+        android:layout_gravity="bottom|left"
+        android:background="@drawable/button_nav_back"
+        android:text=""
+        android:textColor="#222222"
+        android:textSize="27sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
