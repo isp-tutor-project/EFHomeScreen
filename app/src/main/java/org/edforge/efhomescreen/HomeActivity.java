@@ -30,6 +30,7 @@ import static org.edforge.efhomescreen.TCONST.CREATE_ACCT;
 import static org.edforge.efhomescreen.TCONST.EFHOME_FINISHER_INTENT;
 import static org.edforge.efhomescreen.TCONST.EFHOST_LAUNCH_INTENT;
 import static org.edforge.efhomescreen.TCONST.EXISTING_ACCT;
+import static org.edforge.efhomescreen.TCONST.HOME;
 import static org.edforge.efhomescreen.TCONST.OWNER_BREAK_OUT;
 import static org.edforge.efhomescreen.TCONST.REPLACE;
 import static org.edforge.efhomescreen.TCONST.SET_DAY;
@@ -55,6 +56,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     private int                     mMonth;
     private int                     mDay;
 
+    private BlankView       blankView;
     private BreakOutView    breakOutView;
     private UserNameView    userNameView;
     private UserDateView    userDateView;
@@ -116,6 +118,10 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         mJsonWriter = new JSON_Util();
         mInflater   = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        blankView = (BlankView) mInflater.inflate(R.layout.blank_view, null );
+        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        blankView.setLayoutParams(params);
+
         breakOutView = (BreakOutView) mInflater.inflate(R.layout.breakout_view, null );
         params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         breakOutView.setLayoutParams(params);
@@ -169,9 +175,24 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
             Log.e(TAG, "UserData Parse Error: " + e);
         }
 
-        nextStep(TCONST.HOME);
+        nextStep(HOME);
 
         setFullScreen();
+    }
+
+
+    public boolean validateUserFormat() {
+
+        boolean result = false;
+
+        if(mUserDataPackage.users != null) {
+
+            for(int i1= 0 ; i1 < mUserDataPackage.users.length ; i1++) {
+
+                mUserDataPackage.users[i1].userName  = mUserDataPackage.users[i1].userName.replace("-","_").toUpperCase();
+            }
+        }
+        return result;
     }
 
 
@@ -219,7 +240,11 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     }
 
     public void finishActivitywithResult() {
+
+        stopLockTask();
+
         setResult(1);
+        finish();
     }
 
     @Override
@@ -237,7 +262,9 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
         if(mUserDataPackage.users != null) {
             for (UserData user : mUserDataPackage.users) {
 
-                if (user.userName.equals(mUser)) {
+                String userName  = user.userName.replace("-","_").toUpperCase();
+
+                if (userName.equals(mUser)) {
                     result = true;
                     break;
                 }
@@ -256,7 +283,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     @Override
     public void gotoHome() {
 
-        nextStep(TCONST.HOME);
+        nextStep(HOME);
     }
 
 
@@ -267,18 +294,19 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     }
 
 
+    //TODO : change this to broadcasts
     @Override
     public void nextStep(String stepID) {
 
         switch(stepID) {
-            case TCONST.HOME:
+            case HOME:
                 switchView(startView);
                 broadcast(SET_NAME,"");
                 broadcast(SET_MONTH,-1);
                 broadcast(SET_DAY,-1);
                 break;
 
-            case TCONST.USER_NAME:
+            case TCONST.USER_EXISTING:
                 changemode(TCONST.EXISTING_ACCT);
                 switchView(userNameView);
                 break;
@@ -288,6 +316,9 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                 switchView(userNameView);
                 break;
 
+            case TCONST.USER_NAME:
+                switchView(userNameView);
+                break;
 
             case TCONST.USER_DATE:
                 switchView(userDateView);
@@ -304,7 +335,6 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
             case TCONST.SOUND_CHECK:
                 switchView(soundCheckView);
                 break;
-
         }
     }
 
@@ -328,7 +358,10 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
     @Override
     protected void onResume() {
+
         super.onResume();
+
+        nextStep(HOME);
     }
 
     @Override
@@ -370,6 +403,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
                 case TCONST.USER_CHANGE:
                     mUser = intent.getStringExtra(TCONST.NAME_FIELD);
+                    mUser  = mUser.replace("-","_").toUpperCase();
 
                     mUserDataPackage.currUser.userName = mUser;
                     break;
@@ -391,6 +425,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
                 case TCONST.START_TUTOR:
 
+                    switchView(blankView);
+
                     switch(mAccountMode) {
                         case CREATE_ACCT:
                             createNewUser();
@@ -406,8 +442,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
                 case EFHOME_FINISHER_INTENT:
                 case OWNER_BREAK_OUT:
-                    finish();
-//                    finishActivitywithResult();
+//                    finish();
+                    finishActivitywithResult();
                     break;
             }
         }

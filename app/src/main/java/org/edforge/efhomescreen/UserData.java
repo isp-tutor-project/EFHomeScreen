@@ -33,7 +33,7 @@ public class UserData implements ISerializableObject {
 
     public UserData(String _userName) {
 
-        userName  = _userName;
+        userName  = _userName.replace("-","_").toUpperCase();
         currTutor = "";
         currScene = "";
         instructionSeq = "";

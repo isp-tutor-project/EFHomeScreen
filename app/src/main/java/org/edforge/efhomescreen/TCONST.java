@@ -44,6 +44,7 @@ public class TCONST {
 
     public static final String HOME                 = "HOME";
     public static final String USER_NEW             = "USER_NEW";
+    public static final String USER_EXISTING        = "USER_EXISTING";
     public static final String USER_NAME            = "USERNAME";
     public static final String USER_DATE            = "USER_DATE";
     public static final String USER_CONF            = "USERCONF";
