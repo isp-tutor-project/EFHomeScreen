@@ -46,6 +46,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
     private LocalBroadcastManager   bManager;
     private homeReceiver            bReceiver;
+    private boolean                 isInitialized = false;
 
     private JSON_Util               mJsonWriter = null;
     private LayoutInflater          mInflater;
@@ -66,6 +67,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
     private StartView       startView;
     private UserDataPackage mUserDataPackage;
+    private UserData        mCurrUser = new UserData();
 
     private String          mAccountMode       = TCONST.UNKNOWN_MODE;
 
@@ -90,75 +92,90 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
         FrameLayout.LayoutParams params;
 
-        super.onCreate(savedInstanceState);
+        // Note = we don't want the system to try and recreate any of our views- always pass null
+        //
+        super.onCreate(null);
 
-        activityLocal = this;
-        validatePaths(efPaths);
+        if(!isInitialized) {
 
-        // Get the primary container for tutors
-        setContentView(R.layout.activity_home);
-        masterContainer = (MasterContainer)findViewById(R.id.master_container);
+            isInitialized = true;
+            activityLocal = this;
+            validatePaths(efPaths);
 
-        // Capture the local broadcast manager
-        bManager = LocalBroadcastManager.getInstance(this);
+            // Get the primary container for tutors
+            setContentView(R.layout.activity_home);
+            masterContainer = (MasterContainer) findViewById(R.id.master_container);
 
-        IntentFilter filter = new IntentFilter(TCONST.NAME_CHANGE);
-        filter.addAction(TCONST.MONTH_CHANGE);
-        filter.addAction(TCONST.DAY_CHANGE);
-        filter.addAction(TCONST.USER_CHANGE);
-        filter.addAction(TCONST.START_TUTOR);
-        filter.addAction(TCONST.OWNER_BREAK_OUT);
-        filter.addAction(EFHOME_FINISHER_INTENT);
+            // Capture the local broadcast manager
+            bManager = LocalBroadcastManager.getInstance(this);
 
-        bReceiver = new homeReceiver();
-        bManager.registerReceiver(bReceiver, filter);
+            IntentFilter filter = new IntentFilter(TCONST.NAME_CHANGE);
+            filter.addAction(TCONST.MONTH_CHANGE);
+            filter.addAction(TCONST.DAY_CHANGE);
+            filter.addAction(TCONST.USER_CHANGE);
+            filter.addAction(TCONST.START_TUTOR);
+            filter.addAction(TCONST.OWNER_BREAK_OUT);
+            filter.addAction(EFHOME_FINISHER_INTENT);
+
+            bReceiver = new homeReceiver();
+            bManager.registerReceiver(bReceiver, filter);
+
+            setFullScreen();
+
+            mJsonWriter = new JSON_Util();
+            mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            blankView = (BlankView) mInflater.inflate(R.layout.blank_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            blankView.setLayoutParams(params);
+
+            breakOutView = (BreakOutView) mInflater.inflate(R.layout.breakout_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            breakOutView.setLayoutParams(params);
+            breakOutView.setMode(breakOutView.BREAK_OUT, this);
+            breakOutView.setCallback(this);
+
+            userNameView = (UserNameView) mInflater.inflate(R.layout.user_name_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            userNameView.setLayoutParams(params);
+            userNameView.setCallback(this);
+
+            userDateView = (UserDateView) mInflater.inflate(R.layout.user_date_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            userDateView.setLayoutParams(params);
+            userDateView.setCallback(this);
+
+            userConfView = (UserConfView) mInflater.inflate(R.layout.conf_acct_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            userConfView.setLayoutParams(params);
+            userConfView.setCallback(this);
+
+            earBudView = (EarBudView) mInflater.inflate(R.layout.earbud_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            earBudView.setLayoutParams(params);
+            earBudView.setCallback(this);
+
+            soundCheckView = (SoundCheckView) mInflater.inflate(R.layout.sound_chk_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            soundCheckView.setLayoutParams(params);
+            soundCheckView.setCallback(this);
+
+            // Create the start dialog
+            //
+            startView = (StartView) mInflater.inflate(R.layout.start_view, null);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            startView.setLayoutParams(params);
+            startView.setCallback(this);
+        }
+
+        loadUserAccts();
+
+        nextStep(HOME);
 
         setFullScreen();
+    }
 
-        mJsonWriter = new JSON_Util();
-        mInflater   = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        blankView = (BlankView) mInflater.inflate(R.layout.blank_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        blankView.setLayoutParams(params);
-
-        breakOutView = (BreakOutView) mInflater.inflate(R.layout.breakout_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        breakOutView.setLayoutParams(params);
-        breakOutView.setMode(breakOutView.BREAK_OUT, this);
-        breakOutView.setCallback(this);
-
-        userNameView = (UserNameView) mInflater.inflate(R.layout.user_name_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        userNameView.setLayoutParams(params);
-        userNameView.setCallback(this);
-
-        userDateView = (UserDateView) mInflater.inflate(R.layout.user_date_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        userDateView.setLayoutParams(params);
-        userDateView.setCallback(this);
-
-        userConfView = (UserConfView) mInflater.inflate(R.layout.conf_acct_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        userConfView.setLayoutParams(params);
-        userConfView.setCallback(this);
-
-        earBudView = (EarBudView) mInflater.inflate(R.layout.earbud_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        earBudView.setLayoutParams(params);
-        earBudView.setCallback(this);
-
-        soundCheckView = (SoundCheckView) mInflater.inflate(R.layout.sound_chk_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        soundCheckView.setLayoutParams(params);
-        soundCheckView.setCallback(this);
-
-        // Create the start dialog
-        //
-        startView = (StartView) mInflater.inflate(R.layout.start_view, null );
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        startView.setLayoutParams(params);
-        startView.setCallback(this);
+    private void loadUserAccts() {
 
         // Load the user data file
         //
@@ -174,12 +191,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
             // TODO: Manage Exceptions
             Log.e(TAG, "UserData Parse Error: " + e);
         }
-
-        nextStep(HOME);
-
-        setFullScreen();
     }
-
 
     public boolean validateUserFormat() {
 
@@ -241,7 +253,7 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
     public void finishActivitywithResult() {
 
-        stopLockTask();
+//        stopLockTask();
 
         setResult(1);
         finish();
@@ -265,7 +277,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                 String userName  = user.userName.replace("-","_").toUpperCase();
 
                 if (userName.equals(mUser)) {
-                    result = true;
+                    mCurrUser = user;
+                    result    = true;
                     break;
                 }
             }
@@ -274,9 +287,9 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
     }
 
 
-    public void createNewUser() {
+    public UserData createNewUser() {
 
-        mUserDataPackage.addUser(mUser);
+        return mUserDataPackage.addUser(mUser);
     }
 
 
@@ -300,6 +313,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
         switch(stepID) {
             case HOME:
+                loadUserAccts();    // Always reload the user accounts
+
                 switchView(startView);
                 broadcast(SET_NAME,"");
                 broadcast(SET_MONTH,-1);
@@ -404,8 +419,6 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                 case TCONST.USER_CHANGE:
                     mUser = intent.getStringExtra(TCONST.NAME_FIELD);
                     mUser  = mUser.replace("-","_").toUpperCase();
-
-                    mUserDataPackage.currUser.userName = mUser;
                     break;
 
                 case TCONST.NAME_CHANGE:
@@ -429,10 +442,13 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
                     switch(mAccountMode) {
                         case CREATE_ACCT:
-                            createNewUser();
+                            mCurrUser = createNewUser();
+                            mCurrUser.SetDefInstruction(TCONST.DEF_INSTRUCTION_SEQ);
                             // fall through and start tutor
 
                         case EXISTING_ACCT:
+                            mUserDataPackage.addLogin(mCurrUser);
+
                             mJsonWriter.write(mUserDataPackage, DATA_PATH + TCONST.USER_DATA, REPLACE);
 
                             startTutor();

@@ -149,6 +149,7 @@ public class SoundCheckView extends FrameLayout {
 
             case R.id.Sshape3:
                 if(mLatched == 1) {
+                    resetAllShapes();
                     setPlayState(false);
                     broadcast(START_TUTOR);
                     break;
