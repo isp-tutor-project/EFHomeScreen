@@ -8,16 +8,18 @@ import org.edforge.util.JSON_Util;
 import org.json.JSONObject;
 
 /**
- * Created by kevin on 11/4/2018.
+ *  NOTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *  This must be aligned with class in EFAndroidHost
  */
 
 public class UserData implements ISerializableObject {
 
 
-    final private String TAG = "UserData";
+    final private String TAG = "EFUserData";
 
     // json loadable
     public String userName;
+    public int    currSessionNdx;
     public int    currTutorNdx;
     public String currScene;
     public String instructionSeq;
@@ -27,6 +29,7 @@ public class UserData implements ISerializableObject {
     public UserData() {
 
         userName        = "";
+        currSessionNdx  = 0;
         currTutorNdx    = 0;
         currScene       = "";
         instructionSeq  = "";
@@ -36,11 +39,13 @@ public class UserData implements ISerializableObject {
     public UserData(String _userName) {
 
         userName        = _userName;
+        currSessionNdx  = 0;
         currTutorNdx    = 0;
         currScene       = "";
         instructionSeq  = "";
         timeStamp       = System.currentTimeMillis();
     }
+
 
     public void SetDefInstruction(String defaultInstr) {
 
@@ -50,6 +55,7 @@ public class UserData implements ISerializableObject {
     public void clone(UserData userData) {
 
         userName        = userData.userName;
+        currSessionNdx  = userData.currSessionNdx;
         currTutorNdx    = userData.currTutorNdx;
         currScene       = userData.currScene;
         instructionSeq  = userData.instructionSeq;
@@ -60,13 +66,15 @@ public class UserData implements ISerializableObject {
     @Override
     public void saveJSON(JSON_Util writer) {
 
-        writer.addElement("userName", userName);
-        writer.addElement("currTutorNdx", currTutorNdx);
-        writer.addElement("currScene", currScene);
+        writer.addElement("userName",       userName);
+        writer.addElement("currSessionNdx", currSessionNdx);
+        writer.addElement("currTutorNdx",   currTutorNdx);
+        writer.addElement("currScene",      currScene);
         writer.addElement("instructionSeq", instructionSeq);
-        writer.addElement("timeStamp", timeStamp);
+        writer.addElement("timeStamp",      timeStamp);
 
     }
+
 
     @Override
     public void loadJSON(JSONObject jsonObj, IScope scope) {

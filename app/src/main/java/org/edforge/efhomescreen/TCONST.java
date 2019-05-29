@@ -34,7 +34,6 @@ public class TCONST {
     public static final String EDFORGE_DATA_TRANSFER  = "/EdForge_XFER/";
 
     public static final String USER_DATA             = "isp_userdata.json";
-    public static final String DEF_INSTRUCTION_SEQ   = "tutor_seq_dayone.json";
 
     public static final String FONT_FOLDER          = "fonts/";
     public static final String POINT_AND_TAP        = "POINTANDTAP";

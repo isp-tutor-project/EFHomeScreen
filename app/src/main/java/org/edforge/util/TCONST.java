@@ -30,4 +30,6 @@ public class TCONST {
     public static final String EXTERN          = "EXTERN";
     public static final String DEFINED         = "DEFINED";
 
+    public static final String INSTR_CONFIG           = "tutor_instrseq_config.json";
+
 }

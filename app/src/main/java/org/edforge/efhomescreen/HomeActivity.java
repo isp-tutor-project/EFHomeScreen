@@ -71,6 +71,10 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
 
     private String          mAccountMode       = TCONST.UNKNOWN_MODE;
 
+    private InstructionConfig mInstructionConfig;
+    public  String DEF_INSTRUCTION_SEQ = "";
+
+
     public final static String  ASSET_FOLDER   = Environment.getExternalStorageDirectory() + TCONST.EDFORGE_FOLDER;
     public final static String  UPDATE_FOLDER  = Environment.getExternalStorageDirectory() + TCONST.EDFORGE_UPDATE_FOLDER;
     public final static String  LOG_PATH       = Environment.getExternalStorageDirectory() + TCONST.EDFORGE_LOG_FOLDER;
@@ -327,6 +331,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                 break;
 
             case TCONST.USER_NEW:
+                loadInstructionConfig();
+
                 changemode(TCONST.CREATE_ACCT);
                 switchView(userNameView);
                 break;
@@ -443,7 +449,8 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
                     switch(mAccountMode) {
                         case CREATE_ACCT:
                             mCurrUser = createNewUser();
-                            mCurrUser.SetDefInstruction(TCONST.DEF_INSTRUCTION_SEQ);
+                            mCurrUser.SetDefInstruction(DEF_INSTRUCTION_SEQ);
+
                             // fall through and start tutor
 
                         case EXISTING_ACCT:
@@ -464,6 +471,29 @@ public class HomeActivity extends Activity implements IEdForgeLauncher{
             }
         }
     }
+
+
+    private void loadInstructionConfig() {
+
+        // Load the user data file
+        //
+        mInstructionConfig = new InstructionConfig();
+        String jsonData  = JSON_Helper.cacheDataByName(ASSET_FOLDER + org.edforge.util.TCONST.INSTR_CONFIG);
+
+        try {
+            if(!jsonData.isEmpty()) {
+                mInstructionConfig.loadJSON(new JSONObject(jsonData), null);
+
+                DEF_INSTRUCTION_SEQ = mInstructionConfig.defInstr;
+            }
+
+        } catch (Exception e) {
+
+            // TODO: Manage Exceptions
+            Log.e(TAG, "UserData Parse Error: " + e);
+        }
+    }
+
 
 
     public String validatePath(String path) {
